@@ -70,3 +70,63 @@
   ```bash
   curl -X GET http://localhost:5000/api/users/search?query=<search_query> -H "Authorization: Bearer <jwt_token>"
 Replace `<user_id>`, `<jwt_token>`, `<user_id_to_follow>`, and `<search_query>` with actual values when testing the endpoints.
+## Diagram
+    +------------------------------------------------+
+    |                User Service                     |
+    +------------------------------------------------+
+    |               +----------------+                |
+    |               |   API Gateway   |                |
+    |               +----------------+                |
+    |                      |                         |
+    |                      |                         |
+    |         +------------+------------+            |
+    |         |            |            |            |
+    | +----------------+ +-------------+ +-----------------+
+    | |  Authentication| |   User      | |   User Data    |
+    | |    Service     | |  Management | |    Storage      |
+    | |                | |    Service  | |    (MongoDB)    |
+    | +----------------+ +-------------+ +-----------------+
+    |         |                  |                    |
+    |         |                  |                    |
+    | +-------------------+ +-----------------+ +----------------+
+    | |     Router       | |    Controller  | |     Database    |
+    | +-------------------+ +-----------------+ +----------------+
+    |         |                  |                    |
+    |         |                  |                    |
+    | +------------------+ +--------------------+     |
+    | |     Middleware  | |     Business Logic |     |
+    | +------------------+ +--------------------+     |
+    |         |                  |                    |
+    |         +------------------+                    |
+    |                       |                         |
+    +------------------------------------------------+
+
+### Explanation of Components:
+
+1. **API Gateway**:
+   - Acts as the entry point for external client requests.
+   - Routes requests to the appropriate services based on the endpoint.
+
+2. **Authentication Service**:
+   - Handles user authentication and authorization.
+   - Generates and validates JWT tokens.
+   - Protects routes that require authentication.
+
+3. **User Management Service**:
+   - Manages user-related operations such as registration, login, profile updates, and deletions.
+   - Handles user interactions and business logic related to user management.
+
+4. **User Data Storage (MongoDB)**:
+   - Stores user data including profiles, authentication details, and related information.
+   - Provides data persistence for the user-service.
+
+5. **Router**:
+   - Defines API endpoints and routes incoming requests to the appropriate controllers.
+
+6. **Controller**:
+   - Implements the business logic for each endpoint.
+   - Validates input data, processes requests, and interacts with the database.
+
+7. **Middleware**:
+   - Contains middleware functions such as authentication middleware to verify JWT tokens.
+   - Executes before reaching the controller to perform pre-processing tasks.
