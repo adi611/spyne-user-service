@@ -7,7 +7,6 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const JWT_SECRET = process.env.JWT_SECRET!;
-console.log("JWT_SECRET:", JWT_SECRET);
 
 export const registerUser = async (req: Request, res: Response) => {
   const { name, mobile, email, password } = req.body;
@@ -34,7 +33,7 @@ export const registerUser = async (req: Request, res: Response) => {
 
     const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: "1h" });
 
-    res.status(201).json({ token });
+    res.status(201).json({ userId: user._id, token });
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Server error" });
@@ -120,7 +119,7 @@ export const loginUser = async (req: Request, res: Response) => {
 
     const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: "1h" });
 
-    res.json({ token });
+    res.json({ userId: user._id, token });
   } catch (error) {
     res.status(500).json({ message: "Server error" });
   }
