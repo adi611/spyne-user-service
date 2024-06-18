@@ -1,5 +1,25 @@
-# User Service API Documentation
+# User Service
 
+## Overview
+Manages user-related operations such as registration, login, profile management, and user follow functionality.
+
+## Prerequisites
+- Node.js
+- MongoDB
+
+## Setup
+
+1. Install dependencies:
+   ```sh
+   npm install
+2. Configure environment variables in `.env` file:
+   ```sh
+   PORT=5000
+   MONGO_URI=your_mongo_uri
+   JWT_SECRET=your_secret_key
+3. Start the service:
+   ```sh
+   npm start
 ## Endpoints
 
 ### Register a User
